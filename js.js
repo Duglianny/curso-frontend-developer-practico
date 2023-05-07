@@ -10,9 +10,13 @@ const mobileMenu = document.querySelector('.mobile-menu')
 
 const menuCarritoIcon = document.querySelector('.navbar-shopping-cart')
 
-const aside = document.querySelector('.product-detail')
+const shoppingCartContainer = document.querySelector('#shoppingCartContainer')
 
 const cardContainer = document.querySelector('.cards-container')
+
+const productDetallesContainer = document.querySelector('#product-detalles')
+
+const btnCerrarDetails = document.querySelector('.product-detail-close')
 
 
 //eventos 
@@ -23,14 +27,16 @@ burgerMenu.addEventListener('click', toggleMobileMenu)
 
 menuCarritoIcon.addEventListener('click', toggleCarritoMenu)
 
+btnCerrarDetails.addEventListener('click', closeProdcutDetail)
+
 
 //funciones
 
 function toggleDestokMenu(){
-  const isCarritoClosed = aside.classList.contains('inactive')
+  const isCarritoClosed = shoppingCartContainer.classList.contains('inactive')
 
   if(!isCarritoClosed){
-    aside.classList.add('inactive')
+    shoppingCartContainer.classList.add('inactive')
   }
   desktopMenu.classList.toggle('inactive')  //quita o pone la clase dependiendo de la condicion 
 
@@ -39,13 +45,15 @@ function toggleDestokMenu(){
 
 function toggleMobileMenu(){ //aqui al abrir el menu mobile el carrito se debe cerrar
 
-  const isCarritoClosed = aside.classList.contains('inactive')
+  const isCarritoClosed = shoppingCartContainer.classList.contains('inactive')
 
   if(!isCarritoClosed){
-    aside.classList.add('inactive')
+    shoppingCartContainer.classList.add('inactive')
   }
 
   mobileMenu.classList.toggle('inactive')
+
+  closeProdcutDetail()
 }
 
 
@@ -58,7 +66,25 @@ function toggleCarritoMenu(){  //cuando se abra el carrito se debe cerra el mobi
     mobileMenu.classList.add('inactive')
   }
 
-  aside.classList.toggle('inactive')
+
+  const productDetallesCerrado = productDetallesContainer.classList.contains('inactive')
+
+  if(!productDetallesCerrado){
+    productDetallesContainer.classList.add('inactive')
+  }
+
+  shoppingCartContainer.classList.toggle('inactive')
+}
+
+function openProductDetalles(){
+  shoppingCartContainer.classList.add('inactive') //se hace de esta manera ya que no es un toggle si no que se tiene un open y un close por separado ya que aqui es para abrir los detalles una vez abierto si se quiere abrirb el carrito se le da click y se ante pone a los detalles y se quitan los detalles 
+
+  productDetallesContainer.classList.remove('inactive')
+}
+
+function closeProdcutDetail(){
+
+  productDetallesContainer.classList.add('inactive')
 }
 
 
@@ -96,7 +122,7 @@ function recorrerArray(array){
   
     const img = document.createElement('img')
     img.setAttribute('src', product.image)  // para aggar el atributo a la imagen se hace de esta manera diciendole que se va a dar un src y va a ser el que sea que se coloque a product.image 
-  
+    img.addEventListener('click', openProductDetalles)
     const productInfo =  document.createElement('div')
     productInfo.classList.add('product-info')
   
